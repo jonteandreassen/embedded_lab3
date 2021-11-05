@@ -10,7 +10,7 @@
 
 
 void button_init(){
-    DDRD &= ~(1<<PD2); // sätt PORTD2 till output genom att invertera till biten till en 0a
+    DDRD &= ~(1 << PD2); // sätt PORTD2 till output genom att invertera till biten till en 0a
 }
 
 

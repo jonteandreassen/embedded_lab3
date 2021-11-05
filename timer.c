@@ -9,11 +9,9 @@ void timer_init() {
  - Konfigurera upp timer0 i Fast PWM-mod på samma sätt som i labb 2
  - Fast PWM-mod, 255 som TOP, prescaler = 64
 */ 
-
 //! 19.9.1. TC0 Control Register A
 //  - Register name: TCCR0A
 //  - Bits: COM0A1 | COM0A0 | COM0B1 | COM0B0 | WGM01 | WGM00
-
 // ---------------------------------------------------------------------------------
 //! Table 19-4. Compare Output Mode, Fast PWM
 /*              Output compare mode settings                */
@@ -69,7 +67,7 @@ void timer_init() {
     Compare Match between TCNT0 and the OCR0x Registers.
 */
 // Initilize timer0
-    TCNT0 = 0;
+    TCNT0 = 128;
 // ---------------------------------------------------------------------------------  
 //! 19.9.6. TC0 Output Compare Register A
 // - Register name: OCR0A
@@ -80,8 +78,7 @@ void timer_init() {
     value (TCNT0). A match can be used to generate an Output Compare interrupt, or to generate a
     waveform output on the OC0A pin.
 */
-    OCR0A = 2499; //  16000000/64 = 250000 > 250000/((1/10)*1000) -1 = 2499 (ticks) => 2499 (10 ms)
-
+    OCR0A = 249; //  16000000/64 = 250000 => 250000/((1/1)*1000) -1 = 249 (ticks) => 249 (1 ms)
 // --------------------------------------------------------------------------------- 
 //! 19.9.8. TC0 Interrupt Flag Register
 // - Register name: TIFR0
@@ -94,9 +91,6 @@ void timer_init() {
     in SREG, OCIE0A (Timer/Counter0 Compare Match Interrupt Enable), and OCF0A are set, the Timer/
     Counter0 Compare Match Interrupt is executed.
 */
-
-
-
 // --------------------------------------------------------------------------------- 
     //!                  timer2 settings                    
 /*
@@ -104,7 +98,6 @@ void timer_init() {
    men slå på interrupts för compare match, och använd inte busy wait-loopar
  - CTC-mod, 100 Hz, prescaler 1024, ’clear on match/set on bottom’
 */
-
 //! 22.11.1. TC2 Control Register A
 // Register name: TCCR2A
 // Bits: COM2A1 | COM2A0 | COM2B1 | COM2B0 | WGM21 | WGM20
@@ -117,13 +110,13 @@ void timer_init() {
 //    0      1           Toggle OC2A on Compare Match.
 //!   1      0           Clear OC2A on Compare Match.
 //    1      1           Set OC2A on Compare Match .
-    //TCCR2A &= ~(1 << COM2A0);
-	//TCCR2A |= (1 << COM2A1);
+    TCCR2A &= ~(1 << COM2A0);
+	TCCR2A |= (1 << COM2A1);
 
 // Bits 1:0 – WGM2n: Waveform Generation Mode [n = 1:0]
 //! Combined with the WGM22 bit found in the TCCR2B Register
 // Table 22-9. Waveform Generation Mode Bit Description
-//   Mode WGM22 WGM21 WGM20 | Timer/Counter Mode of Operation |  TOP | Update ofOCR0x at | TOV Flag Set on
+//   Mode WGM22 WGM21 WGM20 | Timer/Counter Mode of Operation |  TOP | Update of OCR0x at | TOV Flag Set on
 //    0     0     0    0                 Normal                  0xFF        Immediate           MAX
 //    1     0     0    1                 PWM, Phase Correct      0xFF        TOP                 BOTTOM
 //!   2     0     1    0                 CTC                     OCRA        Immediate           MAX
@@ -132,7 +125,7 @@ void timer_init() {
 //    5     1     0    1                 PWM, Phase Correct      OCRA        TOP                 BOTTOM
 //    6     1     1    0                 Reserved                 -           -                   -
 //    7     1     1    1                 Fast PWM                OCRA        BOTTOM              TOP
-    //TCCR2A |= (1 << WGM21);
+    TCCR2A |= (1 << WGM21);
 // ---------------------------------------------------------------------------------
 //! 22.11.2. TC2 Control Register B
 // Register name: TCCR2B
@@ -160,9 +153,9 @@ void timer_init() {
 //  1    0     1        clkI/O/128 (From prescaler)
 //  1    1     0        clkI/O/256 (From prescaler)
 //! 1    1     1        clkI/O/1024 (From prescaler)
-    //TCCR2B &= ~(1 << WGM22); // CTC settings
-    //TCCR2B &= ~(1 << WGM20); // CTC settings
-    //TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20);
+    TCCR2B &= ~(1 << WGM22); // CTC settings
+    TCCR2B &= ~(1 << WGM20); // CTC settings
+    TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20);
 // ---------------------------------------------------------------------------------
 //! 22.11.3. TC2 Counter Value Register
 // Register name: TCNT2
@@ -174,7 +167,7 @@ void timer_init() {
     timer clock. Modifying the counter (TCNT2) while the counter is running, introduces a risk of missing a
     Compare Match between TCNT2 and the OCR2x Registers.
 */
-    //!TCNT2 = 0;
+    TCNT2 = 255;
 // ---------------------------------------------------------------------------------
 //! 22.11.4. TC2 Output Compare Register A
 // Register name: OCR2A
@@ -185,7 +178,7 @@ void timer_init() {
     value (TCNT2). A match can be used to generate an Output Compare interrupt, or to generate a
     waveform output on the OC2A pin.
 */
-    //!OCR2A = 0;
+    OCR2A = 155; //16000000/1024 = 15625 => 15625/((1/10)*1000) -1 = 155,25 (ticks) => 155 (10 ms)
 // ---------------------------------------------------------------------------------
 //! 22.11.7. TC2 Interrupt Flag Register
 // Register name: TIFR2
@@ -198,9 +191,6 @@ void timer_init() {
     SREG, OCIEA (Timer/Counter2 Compare match Interrupt Enable), and OCFA are set (one), the Timer/
     Counter2 Compare match Interrupt is executed.
 */
-
-
-
 }
 
  
