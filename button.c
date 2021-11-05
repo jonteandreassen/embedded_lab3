@@ -6,26 +6,14 @@
 #include "led.h"
 #include "serial.h"
 
-int isPressed;
+
 
 
 void button_init(){
-    DDRD &= ~(1<<PD2); //Input Switch
+    DDRD &= ~(1<<PD2); // sätt PORTD2 till output genom att invertera till biten till en 0a
 }
 
-void checkButton(){  
-    while(1){
-        if(!(PIND & (1<<PD2))) {
-            PORTD &= ~(1<<PD6);
-            printf_P(PSTR("released\r\n"));
-            isPressed = 0;
 
-        }
-        else {
-            PORTD |= (1<<PD6);
-            printf_P(PSTR("pushed\r\n"));
-            isPressed = 1;
-        }
-    }
-}
+
+
 

@@ -3,6 +3,4 @@
 
 void button_init(void);
 
-void checkButton(void);
-
 #endif // _BUTTON_H_
