@@ -76,7 +76,7 @@ void timer_init() {
     value (TCNT0). A match can be used to generate an Output Compare interrupt, or to generate a
     waveform output on the OC0A pin.
 */
-    OCR0A = 249; //  16000000/64 = 250000 => 250000/((1/1)*1000) -1 = 249 (ticks) => 249 (1 ms)
+    //OCR0A = 249; //  16000000/64 = 250000 => 250000/((1/1)*1000) -1 = 249 (ticks) => 249 (1 ms)
 // --------------------------------------------------------------------------------- 
 // 19.9.8. TC0 Interrupt Flag Register
 // - Register name: TIFR0

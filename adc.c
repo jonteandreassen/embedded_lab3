@@ -13,17 +13,20 @@
 // Bits: REFS1 | REFS0 | ADLAR | MUX3 | MUX2 | MUX1 | MUX0
 // -----------------------------------------------------------------------------
 // Table 28-3. ADC Voltage Reference Selection
+
 // REFS1  0     Voltage Reference Selection
 //   0    0     AREF, Internal Vref turned off
 //   0    1     AVCC with external capacitor at AREF pin
 //   1    0     Reserved
 //   1    1     Internal 1.1V Voltage Reference with external capacitor at AREF pin
 // -----------------------------------------------------------------------------
+
 // Bit 5 – ADLAR: ADC Left Adjust Result
 // The ADLAR bit affects the presentation of the ADC conversion result in the ADC Data Register. Write one
 // to ADLAR to left adjust the result. Otherwise, the result is right adjusted. Changing the ADLAR bit will
 // affect the ADC Data Register immediately, regardless of any ongoing conversions. For a complete
 // description of this bit, see ADCL and ADCH.
+
 // -----------------------------------------------------------------------------
 // Bits 3:0 – MUXn: Analog Channel Selection [n = 3:0]
 //Table 28-4. Input Channel Selection
@@ -45,10 +48,11 @@
 //  1    1    1    0        1.1V (VBG)
 //  1    1    1    1        0V (GND)
 // -----------------------------------------------------------------------------
+
 // 28.9.2. ADC Control and Status Register A
 // Register name: ADCSRA
 // Bits: ADEN | ADSC | ADATE | ADIF | ADIE | ADPS2 | ADPS1 | ADPS0
-// -----------------------------------------------------------------------------
+
 // Bits 2:0 – ADPSn: ADC Prescaler Select [n = 2:0]
 // Table 28-5. Input Channel Selection
 // ADPS2 ADPS1 ADPS0 Division Factor
@@ -69,6 +73,24 @@
 
 // Register name: ADCL
 // Bits: ADC7 | ADC6|  ADC5|  ADC4|  ADC3|  ADC2|  ADC1|  ADC0
+// -----------------------------------------------------------------------------
+
+// 28.9.7. ADC Control and Status Register B
+// Register name: ADCSRB
+// Bits: ACME | ADTS2 | ADTS1 | ADTS0
+
+// ADTS2 ADTS1 ADTS0    Trigger Source
+//  0     0      0      Free Running mode
+//  0     0      1      Analog Comparator
+//  0     1      0      External Interrupt Request 0
+//  0     1      1      Timer/Counter0 Compare Match A
+//  1     0      0      Timer/Counter0 Overflow
+//  1     0      1      Timer/Counter1 Compare Match B
+//  1     1      0      Timer/Counter1 Overflow
+//  1     1      1      Timer/Counter1 Capture Event
+// -----------------------------------------------------------------------------
+
+
 
 void adc_init(){
 // AVCC with external capacitor at AREF pin
@@ -90,7 +112,9 @@ void adc_init(){
 // Division Factor == 8
     ADCSRA &= ~(1 << ADPS2);
     ADCSRA |= (1 << ADPS1) | (1 << ADPS0);
-// read ADCH
+// Bits 2:0 – ADTSn: ADC Auto Trigger Source [n = 2:0]
+    ADCSRB &= ~(1 << ADTS2);
+    ADCSRB |= (1 << ADTS1) | (1 << ADTS0);
 
 
 }
