@@ -7,6 +7,7 @@
 #include "serial.h"
 #include "timer.h"
 #include "button.h"
+#include "adc.h"
 
 uint8_t prevButtonState = 0;
 uint8_t currentButtonState = 0;
