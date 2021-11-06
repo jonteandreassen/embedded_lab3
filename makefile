@@ -8,7 +8,7 @@ SOURCES = \
 		  timer.c \
 		  button.c
 
-PORT = /dev/ttyS5# Arduinons serieport — kan vara ttyACM1, kolla dmesg!
+PORT = /dev/ttyS3# Arduinons serieport — kan vara ttyACM1, kolla dmesg!
 
 CC = avr-gcc
 LD=avr-ld
