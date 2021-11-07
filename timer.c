@@ -1,5 +1,5 @@
 #include <avr/io.h>
-
+#include <avr/interrupt.h>
 #include "timer.h"
 
 void timer_init() {
@@ -25,7 +25,7 @@ void timer_init() {
     TCCR0A &= ~(1 << COM0A0);
 // ---------------------------------------------------------------------------------   
 /*                  FAST PWM settings                      */
-//! Combined with the WGM02 bit found in the TCCR0B Register
+// Combined with the WGM02 bit found in the TCCR0B Register
 //  Mode WGM02 WGM01 WGM00 Timer/Counter Mode of Operation       TOP       Update of OCR0x at      TOV Flag Set on
 //   0     0     0     0         Normal                          0xFF           Immediate                  MAX
 //   1     0     0     1         PWM, Phase Correct              0xFF            TOP                      BOTTOM
@@ -39,8 +39,7 @@ void timer_init() {
 // ---------------------------------------------------------------------------------
 //  19.9.2. TC0 Control Register B
 // - Register name: TCCR0B
-// - Bits: FOC0A | FOC0B | WGM02 | CS0[2:0]
-// ---------------------------------------------------------------------------------   
+// - Bits: FOC0A | FOC0B | WGM02 | CS0[2:0]  
 /*                  Prescale settings                      */    
 //          Table 19-10. Clock Select Bit Description
 //   CA02 CA01 CS00 Description
@@ -80,7 +79,7 @@ void timer_init() {
 // --------------------------------------------------------------------------------- 
 // 19.9.8. TC0 Interrupt Flag Register
 // - Register name: TIFR0
-// - Bits: OCFB  OCFA TOV //! OCFA
+// - Bits: OCFB  OCFA TOV 
 /*
     Bit 1 – OCFA: Timer/Counter0, Output Compare A Match Flag
     The OCF0A bit is set when a Compare Match occurs between the Timer/Counter0 and the data in
@@ -102,7 +101,6 @@ void timer_init() {
 // ---------------------------------------------------------------------------------
 /*                  CTC settings                      */    
 //        Table 22-3. Compare Output Mode, non-PWM
-// ---------------------------------------------------------------------------------
 //  COM2A1 COM2A0    Description
 //    0      0           Normal port operation, OC2A disconnected.
 //    0      1           Toggle OC2A on Compare Match.
@@ -110,9 +108,9 @@ void timer_init() {
 //    1      1           Set OC2A on Compare Match .
     TCCR2A &= ~(1 << COM2A0);
 	TCCR2A |= (1 << COM2A1);
-
+// ---------------------------------------------------------------------------------
 // Bits 1:0 – WGM2n: Waveform Generation Mode [n = 1:0]
-//! Combined with the WGM22 bit found in the TCCR2B Register
+// Combined with the WGM22 bit found in the TCCR2B Register
 // Table 22-9. Waveform Generation Mode Bit Description
 //   Mode WGM22 WGM21 WGM20 | Timer/Counter Mode of Operation |  TOP | Update of OCR0x at | TOV Flag Set on
 //    0     0     0    0                 Normal                  0xFF        Immediate           MAX
@@ -140,7 +138,6 @@ void timer_init() {
     TOP.
     The FOC2A bit is always read as zero.
 */
-// ---------------------------------------------------------------------------------
 // Bits 2:0 – CS2[2:0]: Clock Select 2 [n = 0..2]
 // CA22 CA21 CS20   Description
 //  0    0     0        No clock source (Timer/Counter stopped).
@@ -175,11 +172,11 @@ void timer_init() {
     value (TCNT2). A match can be used to generate an Output Compare interrupt, or to generate a
     waveform output on the OC2A pin.
 */
-    OCR2A = 155; //16000000/1024 = 15625 => 15625/((1/10)*1000) -1 = 155,25 (ticks) => 155 (10 ms)
+    //OCR2A = 155; //16000000/1024 = 15625 => 15625/((1/10)*1000) -1 = 155,25 (ticks) => 155 (10 ms)
 // ---------------------------------------------------------------------------------
 // 22.11.7. TC2 Interrupt Flag Register
 // Register name: TIFR2
-// Bits: OCFB OCFA TOV  //! OCFA
+// Bits: OCFB OCFA TOV  
 /*
     Bit 1 – OCFA: Timer/Counter2, Output Compare A Match Flag
     The OCFA bit is set (one) when a compare match occurs between the Timer/Counter2 and the data in

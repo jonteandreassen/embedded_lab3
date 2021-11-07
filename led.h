@@ -3,7 +3,7 @@
 
 void LED_init(void);
 
-uint8_t simple_ramp(void);
+uint8_t simple_ramp(uint8_t ADCvalue);
 
 #endif // _LED_H_
 
