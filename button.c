@@ -17,17 +17,17 @@ void buttonState(uint8_t *currentButtonState, uint8_t *prevButtonState){
     char off[] = {"released\r\n"};
         if((PIND & (1 << PD2))){ // om knappen är nedtryckt
             *currentButtonState = 1;
-            PORTD |= (1 << PD6); //tänd LED
         }
         else if (!(PIND & (1 << PD2))){ // om inte knappen är nedtryckt
             *currentButtonState = 0;
-            PORTD &= ~(1 << PD6); //släck LED
         }
             if (*currentButtonState == 1 && *prevButtonState == 0){
                 printf_P(PSTR("%s"), on);
+                PORTD |= (1 << PD6); //tänd LED
             }
             else if (*currentButtonState == 0 && *prevButtonState == 1){
                 printf_P(PSTR("%s"), off);
+                PORTD &= ~(1 << PD6); //släck LED
             }
     *prevButtonState = *currentButtonState;
 }

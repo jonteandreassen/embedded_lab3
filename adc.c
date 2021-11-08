@@ -7,17 +7,19 @@
 // Vmax = 1023 == 5v (spänning mellan 0 - 1023)
 
 void adc_init(){
+    DDRC |= (1 << PC0);
+
 // AVCC with external capacitor at AREF pin
 // 28.9.1. ADC Multiplexer Selection Register
 // Register name: ADMUX
 // Bits: REFS1 | REFS0 | ADLAR | MUX3 | MUX2 | MUX1 | MUX0
 
 // Table 28-3. ADC Voltage Reference Selection
-// REFS1  0     Voltage Reference Selection
-//   0    0     AREF, Internal Vref turned off
-//   0    1     AVCC with external capacitor at AREF pin
-//   1    0     Reserved
-//   1    1     Internal 1.1V Voltage Reference with external capacitor at AREF pin
+// REFS1  REFS0         Voltage Reference Selection
+//   0      0         AREF, Internal Vref turned off
+//   0      1   <==   AVCC with external capacitor at AREF pin
+//   1      0         Reserved
+//   1      1         Internal 1.1V Voltage Reference with external capacitor at AREF pin
     ADMUX &= ~(1 << REFS1);
     ADMUX |= (1 << REFS0); 
 // -----------------------------------------------------------------------------
@@ -32,23 +34,23 @@ void adc_init(){
 // -----------------------------------------------------------------------------
 // Bits 3:0 – MUXn: Analog Channel Selection [n = 3:0]
 // Table 28-4. Input Channel Selection
-// MUX3 MUX2 MUX1 MUX0 Single Ended Input
-//  0    0    0    0        ADC0 // Potentiometern är kopplad till denna
-//  0    0    0    1        ADC1
-//  0    0    1    0        ADC2
-//  0    0    1    1        ADC3
-//  0    1    0    0        ADC4
-//  0    1    0    1        ADC5
-//  0    1    1    0        ADC6
-//  0    1    1    1        ADC7
-//  1    0    0    0        Temperature sensor
-//  1    0    0    1        Reserved
-//  1    0    1    0        Reserved
-//  1    0    1    1        Reserved
-//  1    1    0    0        Reserved
-//  1    1    0    1        Reserved
-//  1    1    1    0        1.1V (VBG)
-//  1    1    1    1        0V (GND)
+// MUX3 MUX2 MUX1 MUX0              Single Ended Input
+//  0    0    0    0     <==            ADC0 // Potentiometern är kopplad till denna
+//  0    0    0    1                    ADC1
+//  0    0    1    0                    ADC2
+//  0    0    1    1                    ADC3
+//  0    1    0    0                    ADC4
+//  0    1    0    1                    ADC5
+//  0    1    1    0                    ADC6
+//  0    1    1    1                    ADC7
+//  1    0    0    0                    Temperature sensor
+//  1    0    0    1                    Reserved
+//  1    0    1    0                    Reserved
+//  1    0    1    1                    Reserved
+//  1    1    0    0                    Reserved
+//  1    1    0    1                    Reserved
+//  1    1    1    0                    1.1V (VBG)
+//  1    1    1    1                    0V (GND)
     ADMUX &= ~(1 << MUX3);
     ADMUX &= ~(1 << MUX2);  
     ADMUX &= ~(1 << MUX1);
@@ -69,15 +71,15 @@ void adc_init(){
 
 // Bits 2:0 – ADPSn: ADC Prescaler Select [n = 2:0]
 // Table 28-5. Input Channel Selection
-// ADPS2 ADPS1 ADPS0 Division Factor
-//  0     0     0      2
-//  0     0     1      2
-//  0     1     0      4
-//  0     1     1      8 
-//  1     0     0      16
-//  1     0     1      32
-//  1     1     0      64
-//  1     1     1      128
+// ADPS2 ADPS1 ADPS0    Division Factor
+//  0     0     0           2
+//  0     0     1           2
+//  0     1     0           4
+//  0     1     1    <==    8 
+//  1     0     0           16
+//  1     0     1           32
+//  1     1     0           64
+//  1     1     1           128
     ADCSRA &= ~(1 << ADPS2);
     ADCSRA |= (1 << ADPS1) | (1 << ADPS0);
 // -----------------------------------------------------------------------------
@@ -85,15 +87,15 @@ void adc_init(){
 // Bits: ACME | ADTS2 | ADTS1 | ADTS0
 // 28.9.7. ADC Control and Status Register B
 
-// ADTS2 ADTS1 ADTS0    Trigger Source
-//  0     0      0      Free Running mode
-//  0     0      1      Analog Comparator
-//  0     1      0      External Interrupt Request 0
-//  0     1      1      Timer/Counter0 Compare Match A
-//  1     0      0      Timer/Counter0 Overflow
-//  1     0      1      Timer/Counter1 Compare Match B
-//  1     1      0      Timer/Counter1 Overflow
-//  1     1      1      Timer/Counter1 Capture Event
+// ADTS2 ADTS1 ADTS0         Trigger Source
+//  0     0      0              Free Running mode
+//  0     0      1              Analog Comparator
+//  0     1      0              External Interrupt Request 0
+//  0     1      1    <==       Timer/Counter0 Compare Match A
+//  1     0      0              Timer/Counter0 Overflow
+//  1     0      1              Timer/Counter1 Compare Match B
+//  1     1      0              Timer/Counter1 Overflow
+//  1     1      1              Timer/Counter1 Capture Event
     ADCSRB &= ~(1 << ADTS2);
     ADCSRB |= (1 << ADTS1) | (1 << ADTS0);
 // -----------------------------------------------------------------------------  

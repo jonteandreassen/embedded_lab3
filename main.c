@@ -12,13 +12,13 @@
 uint8_t prevButtonState = 0;
 uint8_t currentButtonState = 0;
 
-uint8_t ADCvalue = 0;
+volatile uint8_t ADCvalue = 0;
+
 
 #include <util/delay.h>
 
 ISR(ADC_vect){
 // ISR interuppt som triggas när "ADC conversion" är klart och sparar värdet till ADCvalue
-	
 	ADCvalue = ADCH; // läser datan från ADCH eftersom vi har vänsterjusterat 10 bit datan
 }
 
@@ -29,24 +29,29 @@ ISR(TIMER2_COMPA_vect){
 	OCR0A = ADCvalue;	
 }
 
+
+
 int main (void) {
 // Kom ihåg att sätta rätt com-port i makefile!
-    //PORTD |= (1 << PD6); // tänd LED
+
 
     LED_init();
+    //button_init(); // Deluppgift 2
     uart_init();
-    timer_init();
-    //button_init();
-    adc_init();
-    sei(); // sätt på interrupt
+    timer0_init(); // Deluppgift 3
+    timer2_init(); // Deluppgift 3
+    
+    adc_init();   // Deluppgift 3
+    sei(); // sätt på interrupt // Deluppgift 3
+    
     while (1) {
-        /*
-        while(!(TIFR0 & (1 << OCF0A))){} // vänta tills att output compare A matchar flag av timer0
-        buttonState(&currentButtonState, &prevButtonState);  
-        TIFR0 |= (1 << OCF0A); // rensa flaggan
-        */
-        printf_P(PSTR("%" PRIu8 "\n\r"), OCR0A); // printar 0
+        
+       // buttonState(&currentButtonState, &prevButtonState);  // Deluppgift 2
+       
+        simple_ramp(&OCR0A);
+        printf_P(PSTR("AdcValue: %d \n\r"), ADCvalue); // printar 0
         _delay_ms(1000);
+        
     }
     return 0;
 } 
