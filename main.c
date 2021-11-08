@@ -15,7 +15,7 @@ uint8_t currentButtonState = 0;
 volatile uint8_t ADCvalue = 0;
 
 
-#include <util/delay.h>
+#include <util/delay.h> // Temporär
 
 ISR(ADC_vect){
 // ISR interuppt som triggas när "ADC conversion" är klart och sparar värdet till ADCvalue
@@ -38,9 +38,9 @@ int main (void) {
     LED_init();
     //button_init(); // Deluppgift 2
     uart_init();
+
     timer0_init(); // Deluppgift 3
     timer2_init(); // Deluppgift 3
-    
     adc_init();   // Deluppgift 3
     sei(); // sätt på interrupt // Deluppgift 3
     
@@ -48,7 +48,9 @@ int main (void) {
         
        // buttonState(&currentButtonState, &prevButtonState);  // Deluppgift 2
        
-        simple_ramp(&OCR0A);
+       
+        simple_ramp(&OCR0A); // skickar med adressen till OSCR0A
+        //Temporärt bara för att se hur ADC värdena 
         printf_P(PSTR("AdcValue: %d \n\r"), ADCvalue); // printar 0
         _delay_ms(1000);
         
