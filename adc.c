@@ -7,8 +7,6 @@
 // Vmax = 1023 == 5v (spänning mellan 0 - 1023)
 
 void adc_init(){
-    DDRC |= (1 << PC0);
-
 // AVCC with external capacitor at AREF pin
 // 28.9.1. ADC Multiplexer Selection Register
 // Register name: ADMUX
@@ -62,9 +60,6 @@ void adc_init(){
 
 // Bit 7 – ADEN: ADC Enable
     ADCSRA |= (1 << ADEN);
-
-// Bit 4 – ADIF: ADC Interrupt Flag This bit is set when an ADC conversion completes and the Data Registers are updated.
-    ADCSRA |= (1 << ADIF);
 // Bit 3 – ADIE: ADC Interrupt Enable When this bit is written to one and the I-bit in SREG is set, the ADC Conversion Complete Interrupt is activated.
     ADCSRA |= (1 << ADIE);
 // -----------------------------------------------------------------------------
@@ -104,11 +99,6 @@ void adc_init(){
 // When ADCL is read, the ADC Data Register is not updated until ADCH is read. Consequently, if the result
 // is left adjusted and no more than 8-bit precision is required, it is sufficient to read ADCH. Otherwise,
 // ADCL must be read first, then ADCH.
-
-// Register name: ADCL
-// Bits: ADC7 | ADC6|  ADC5|  ADC4|  ADC3|  ADC2|  ADC1|  ADC0
-// -----------------------------------------------------------------------------
-
 }
 
 

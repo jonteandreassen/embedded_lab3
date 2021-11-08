@@ -23,11 +23,11 @@ void buttonState(uint8_t *currentButtonState, uint8_t *prevButtonState){
         }
             if (*currentButtonState == 1 && *prevButtonState == 0){
                 printf_P(PSTR("%s"), on);
-                PORTD |= (1 << PD6); //tänd LED
+                //PORTD |= (1 << PD6); //tänd LED
             }
             else if (*currentButtonState == 0 && *prevButtonState == 1){
                 printf_P(PSTR("%s"), off);
-                PORTD &= ~(1 << PD6); //släck LED
+                //PORTD &= ~(1 << PD6); //släck LED
             }
     *prevButtonState = *currentButtonState;
 }

@@ -15,7 +15,7 @@ uint8_t currentButtonState = 0;
 volatile uint8_t ADCvalue = 0;
 
 
-#include <util/delay.h> // Temporär
+#include <util/delay.h> // Används för att läsa ut ADC värdet i UART
 
 ISR(ADC_vect){
 // ISR interuppt som triggas när "ADC conversion" är klart och sparar värdet till ADCvalue
@@ -27,6 +27,7 @@ ISR(TIMER2_COMPA_vect){
 // Bit 6 – ADSC: ADC Start Conversion In Single Conversion mode, write this bit to one to start each conversion.
     ADCSRA |= (1 << ADSC);
 	OCR0A = ADCvalue;	
+    buttonState(&currentButtonState, &prevButtonState);  // Deluppgift 2
 }
 
 
@@ -36,9 +37,9 @@ int main (void) {
 
 
     LED_init();
-    //button_init(); // Deluppgift 2
+    button_init(); // Deluppgift 2
     uart_init();
-
+    
     timer0_init(); // Deluppgift 3
     timer2_init(); // Deluppgift 3
     adc_init();   // Deluppgift 3
@@ -46,14 +47,11 @@ int main (void) {
     
     while (1) {
         
-       // buttonState(&currentButtonState, &prevButtonState);  // Deluppgift 2
-       
-       
         simple_ramp(&OCR0A); // skickar med adressen till OSCR0A
         //Temporärt bara för att se hur ADC värdena 
         printf_P(PSTR("AdcValue: %d \n\r"), ADCvalue); // printar 0
         _delay_ms(1000);
-        
+      
     }
     return 0;
 } 
