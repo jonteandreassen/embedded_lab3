@@ -33,7 +33,7 @@ ISR(TIMER2_COMPA_vect){
 
 
 int main (void) {
-// Kom ihåg att sätta rätt com-port i makefile!
+//! Kom ihåg att sätta rätt com-port i makefile !
 
 
     LED_init();
