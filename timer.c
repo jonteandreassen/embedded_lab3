@@ -1,5 +1,4 @@
 #include <avr/io.h>
-#include <avr/interrupt.h>
 #include "timer.h"
 
 void timer0_init() {
@@ -91,7 +90,6 @@ void timer0_init() {
 }
 
 void timer2_init(){
-// --------------------------------------------------------------------------------- 
     //                      timer2 settings                    
 /*
  - Konfigurera upp timer2 i CTC-mod på samma sätt som i labb 2,

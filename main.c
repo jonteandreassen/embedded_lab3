@@ -49,7 +49,7 @@ int main (void) {
         
         simple_ramp(&OCR0A); // skickar med adressen till OSCR0A
         //Temporärt bara för att se hur ADC värdena 
-        printf_P(PSTR("AdcValue: %d \n\r"), ADCvalue); // printar 0
+        printf_P(PSTR("AdcValue: %d \n\r"), ADCvalue); 
         _delay_ms(1000);
       
     }
